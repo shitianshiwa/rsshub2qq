@@ -1,0 +1,50 @@
+npm install axios --save
+npm i node-localstorage
+npm i dayjs
+npm i node-schedule
+npm i decimal.js
+npm i iconv-lite
+npm install fnv-plus --save
+npm i video-previews
+npm i js-sha256//https://www.npmjs.com/package/js-sha256
+//npm i truncate
+//npm i utf8
+//npm i @atomic-reactor/decompress 
+npm i empty-folder
+//要人工复制文件进行覆盖
+//https://github.com/kevva/decompress/issues/76
+
+视频转gif
+apt-get install ffmpeg
+https://github.com/FFmpeg/FFmpeg
+apt-get install graphicsmagick
+https://github.com/aheckmann/gm
+npm install gify
+https://github.com/tj/node-gify
+npm install gify
+
+//apt-get install mediainfo
+https://github.com/MediaArea/MediaInfo
+https://mediaarea.net/fr/MediaInfo/Download/Ubuntu
+https://ubuntu.pkgs.org/18.04/ubuntu-universe-arm64/libwxbase3.0-0v5_3.0.4+dfsg-3_arm64.deb.html
+安装包安装mediainfo v20.03
+mediainfo --version
+apt-get install git automake autoconf libtool pkg-config make g++ zlib1g-dev -y
+apt-get install libmms0
+cd /home/user/coolq
+dpkg -i libmediainfo0v5_20.03-1_amd64.xUbuntu_18.04.deb
+dpkg -i libzen0v5_0.4.38-1_amd64.xUbuntu_18.04.deb
+dpkg -i mediainfo_20.03-1_amd64.xUbuntu_18.04.deb
+dpkg -i mediainfo-gui_20.03-1_amd64.xUbuntu_18.04.deb
+apt --fix-broken install
+
+
+mp4提取音频m4a
+ffmpeg -i 0.mp4 -vn -codec copy 0.m4a
+https://blog.csdn.net/tomwillow/article/details/90372606
+m4a转码mp3
+ffmpeg -i 0.m4a 0.mp3
+https://blog.csdn.net/ssllkkyyaa/article/details/90400302
+获取视频信息
+mediainfo --full --output=JSON 0.mp4
+mediainfo --full --output=JSON 0.mp3
