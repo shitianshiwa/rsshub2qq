@@ -31,6 +31,9 @@ https://ubuntu.pkgs.org/18.04/ubuntu-universe-arm64/libwxbase3.0-0v5_3.0.4+dfsg-
 mediainfo --version
 apt-get install git automake autoconf libtool pkg-config make g++ zlib1g-dev -y
 apt-get install libmms0
+
+进入容器内部
+docker exec -it -u 0 coolq_dotnet48 /bin/bash
 cd /home/user/coolq
 dpkg -i libmediainfo0v5_20.03-1_amd64.xUbuntu_18.04.deb
 dpkg -i libzen0v5_0.4.38-1_amd64.xUbuntu_18.04.deb
