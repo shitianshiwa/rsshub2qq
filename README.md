@@ -1,5 +1,8 @@
 # 暂时不能用,仅有记录备份作用
 
+# 该项目依赖这个运行环境
+* https://github.com/shitianshiwa/docker-wine-coolq-dotnet48-autoins
+
 # rsshub2qq
 
 > 基于酷Q制作的 RSSHub QQ群推送机器人，用于订阅RSSHub的更新并转发到QQ群
