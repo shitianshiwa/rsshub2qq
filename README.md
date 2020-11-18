@@ -65,7 +65,7 @@ https://github.com/Mrs4s/go-cqhttp/blob/master/docs/config.md
 	"port": 5700,
 	"timeout": 5,
 	"post_urls": {
-           "http://127.0.0.1:8989": ""
+             "http://127.0.0.1:8989": ""
     	}
 }
 ```
