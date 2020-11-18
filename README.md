@@ -58,15 +58,16 @@ module.exports = {
 https://github.com/Mrs4s/go-cqhttp/blob/master/docs/config.md
 修改添加这些
 ```json
-"http_config": {
-		"enabled": true,
-		"host": "127.0.0.1",
-		"port": 5700,
-		"timeout": 5,
-		"post_urls": {
+"http_config": 
+{
+	"enabled": true,
+	"host": "127.0.0.1",
+	"port": 5700,
+	"timeout": 5,
+	"post_urls": {
            "http://127.0.0.1:8989": ""
-        }
-	},
+    	}
+}
 ```
 ### 添加订阅信息
 
