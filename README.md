@@ -75,8 +75,8 @@ https://github.com/Mrs4s/go-cqhttp/blob/master/docs/config.md
 ### 运行
 
 ```bash
-npm install #$ yarn install 
-$ node index
+npm install #yarn install 
+node index
 ```
 
 ## 其他
