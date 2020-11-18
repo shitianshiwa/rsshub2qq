@@ -69,6 +69,6 @@ yarn.lock
 package-lock.json
 test
 test.js
-credentials.js
+#credentials.js
 tmp
 rss_log.txt
