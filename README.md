@@ -18,7 +18,7 @@
 
 可选:
 下载[RSSHub](https://github.com/DIYgod/RSSHub)
-申请一个推特key来配置RSSHUB[申请推脱开发者key地址](https://developer.twitter.com/apps)
+申请一个推特key来配置RSSHUB[申请推特开发者key地址](https://developer.twitter.com/apps)
 
 ### credentials.js 相关配置
 
