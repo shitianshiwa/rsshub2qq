@@ -1,0 +1,24 @@
+{
+    "Twitter-kyuketsuki_san(索菲官方)": {
+        "url": "/twitter/user/kyuketsuki_san",
+        "group": [
+            "QQ群号,索引1为模式选择：0推主的所有推(所有推主发的推文)，1仅转推主的主题推，2仅转推，3无回复推，4全部推文。,rss(); 索引0为QQ号。索引1为模式选择：0推主的所有推(所有推主发的推文)，1仅转推主的主题推，2仅转推，3无回复推，4全部推文。内容选择：0仅要含图片的推，1仅要不含图片的推，2仅要链接，3全部。关键词选择指定的推文,"
+        ],
+        "user": [],
+        "translate1": false,
+        "translate2": false,
+        "jilu": false,
+        "kaiguan": true
+    },
+    "Twitter-amatou111(索菲作者)": {
+        "url": "/twitter/user/amatou111",
+        "group": [
+            "-1,4,3,となりの吸血鬼さん"
+        ],
+        "user": [],
+        "translate1": false,
+        "translate2": false,
+        "jilu": false,
+        "kaiguan": true
+    }
+}
