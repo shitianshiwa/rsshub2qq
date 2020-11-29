@@ -772,6 +772,8 @@ console.log(i.toFixed(2))
                 if (temp2 == false) {
                     resolve(download(imgs[i], {
                         proxy: proxy ? proxyip : false
+                    }).catch(err => {
+                        logger.error(new Date().toString() + " , " + err);
                     }));
                 } else {
                     resolve(fileNames)
@@ -857,6 +859,8 @@ console.log(i.toFixed(2))
                 if (temp2 == false) {
                     resolve(download(video[i], {
                         proxy: proxy ? proxyip : false
+                    }).catch(err => {
+                        logger.error(new Date().toString() + " , " + err);
                     }));
                 } else {
                     resolve(fileNames)
@@ -906,6 +910,8 @@ console.log(i.toFixed(2))
             //https://www.jb51.net/article/127906.htm nodejs判断文件、文件夹是否存在及删除的方法
             resolve(download(imgs, {
                 proxy: proxy ? proxyip : false
+            }).catch(err => {
+                logger.error(new Date().toString() + " , " + err);
             }));
         });
         if (fileDataArr != null) {
