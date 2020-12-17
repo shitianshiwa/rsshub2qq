@@ -15,8 +15,7 @@ const xuanzeneirong = (xuanze, i, cheadpath, feed, actorlink, config, text, vide
                     (config.title ? `标题：${item.title}\n` : '') +
                     `内容：\n${videoLength ? `${text!=""?text+"\n":""}${videos3==1?videoLength+"个GIF，点击原链接查看":(videos3==2?videoLength+"个视频，点击原链接查看"+(music==null?",备注:该视频无声音\n":"\n声音将转为单独的语音发送\n"):"")}${videos+""}` : text!=""?text+"\n":""}` + `${translates[linktemp]=="" ? `${text!=""?fanyi+"\n":""}` :translates[linktemp]+"\n"}` +
                     `${cqimgpath.length ? `媒体(${cqimgpath.length}张图片)：\n${cqimgpath.length ? `${cqimgpath.join('')}\n` : ''}` : ''}` +
-                    /*`发推人：${item.author}\n`*/
-                    +
+                    /*`发推人：${item.author}\n`+*/
                     `链接：${item.link}\n` +
                     `发推日期：${dayjs(item.pubDate).format('YYYY年M月D日 星期d ').replace("星期0","星期天") + new Date(item.pubDate).toTimeString().split("(")[0]}\n`;
             }
@@ -28,8 +27,7 @@ const xuanzeneirong = (xuanze, i, cheadpath, feed, actorlink, config, text, vide
                     (config.title ? `标题：${item.title}\n` : '') +
                     `内容：\n${videoLength ? `${text!=""?text+"\n":""}${videos3==1?videoLength+"个GIF，点击原链接查看":(videos3==2?videoLength+"个视频，点击原链接查看"+(music==null?",备注:该视频无声音\n":"\n声音将转为单独的语音发送\n"):"")}${videos+""}` : text!=""?text+"\n":""}` + `${translates[linktemp]=="" ? `${text!=""?fanyi+"\n":""}` :translates[linktemp]+"\n"}` +
                     `${cqimgpath.length ? `媒体(${cqimgpath.length}张图片)：\n${cqimgpath.length ? `${cqimgpath.join('')}\n` : ''}` : ''}` +
-                    /*`发推人：${item.author}\n`*/
-                    +
+                    /*`发推人：${item.author}\n`+*/
                     `链接：${item.link}\n` +
                     `发推日期：${dayjs(item.pubDate).format('YYYY年M月D日 星期d ').replace("星期0","星期天") + new Date(item.pubDate).toTimeString().split("(")[0]}\n`;
             }
@@ -37,16 +35,15 @@ const xuanzeneirong = (xuanze, i, cheadpath, feed, actorlink, config, text, vide
         case 2: //仅返回链接：
             message = `(实际数量：${i}/${item2.length} , 原本总数：${items1.length})\n` + `${cheadpath}【${feed.title}】更新了！\n${actorlink}\n` +
                 (config.title ? `标题：${item.title}\n` : '') +
-                /*`发推人：${item.author}\n`*/
-                +`链接：${item.link}\n` + `发推日期：${dayjs(item.pubDate).format('YYYY年M月D日 星期d ').replace("星期0","星期天") + new Date(item.pubDate).toTimeString().split("(")[0]}\n`;
+                /*`发推人：${item.author}\n`+*/
+                `链接：${item.link}\n` + `发推日期：${dayjs(item.pubDate).format('YYYY年M月D日 星期d ').replace("星期0","星期天") + new Date(item.pubDate).toTimeString().split("(")[0]}\n`;
             break;
         default: //全部内容
             message = `(实际数量：${i}/${item2.length} , 原本总数：${items1.length})\n` + `${cheadpath}【${feed.title}】更新了！\n${actorlink}\n` +
                 (config.title ? `标题：${item.title}\n` : '') +
                 `内容：\n${videoLength ? `${text!=""?text+"\n":""}${videos3==1?videoLength+"个GIF，点击原链接查看":(videos3==2?videoLength+"个视频，点击原链接查看"+(music==null?",备注:该视频无声音\n":"\n声音将转为单独的语音发送\n"):"")}${videos+""}` : text!=""?text+"\n":""}` + `${translates[linktemp]=="" ? `${text!=""?fanyi+"\n":""}` :translates[linktemp]+"\n"}` +
                 `${cqimgpath.length ? `媒体(${cqimgpath.length}张图片)：\n${cqimgpath.length ? `${cqimgpath.join('')}\n` : ''}` : ''}` +
-                /*`发推人：${item.author}\n`*/
-                +
+                /*`发推人：${item.author}\n` +*/
                 `链接：${item.link}\n` +
                 `发推日期：${dayjs(item.pubDate).format('YYYY年M月D日 星期d ').replace("星期0","星期天") + new Date(item.pubDate).toTimeString().split("(")[0]}\n`;
             break;
