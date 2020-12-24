@@ -171,7 +171,7 @@ const faxinxi = async(leixing, mubiao, moshi, neirong, actorpic, actorlink, feed
                     } else {
                         cd1 = 1 * 1000;
                         //cd0 = cd0 + 1;
-                        cd2 = 1 * 1000;
+                        cd2 = 10 * 1000;
                         //cd = cd + 1;
                     }
                     let item = null;
