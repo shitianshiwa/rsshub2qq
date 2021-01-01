@@ -57,7 +57,7 @@ module.exports = async(str, id, youdao = false, baidu = false) => {
         } else {
             temp6 = query;
         }
-        if (query.search("Re @") != -1) {
+        if (query.search("Re @") != -1&&query.search("RT ") != -1) {
             temp6 = "";
             temp4 = query.split(" ");
             for (let i = 2; i < temp4.length; i++) {
@@ -68,7 +68,7 @@ module.exports = async(str, id, youdao = false, baidu = false) => {
             }
             temp5 = temp4[0] + " " + temp4[1] + " ";
             //query = query.replace(/(Re @)[A-Za-z0-9_-]{1,50}/g, '').trim();
-        } else if (query.search("Re") != -1) {
+        } else if (query.search("Re") != -1&&query.search("RT") != -1) {
             temp6 = "";
             temp4 = query.split(" ");
             for (let i = 1; i < temp4.length; i++) {
