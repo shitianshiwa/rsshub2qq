@@ -78,7 +78,12 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
             for (i = 2; i < temp4.length; i++) {
                 temp6 += temp4[i];
             }
-            temp5 = temp8 + " " + temp4[1] + "\n";
+            if (temp4[0].search("RT") == -1 && temp4[0].search("Re") == -1) {
+                temp5 = temp8 + " " + temp4[1] + "\n";
+            } else {
+                temp5 = temp4[0] + "\n";
+                temp5 = temp5.replace(/\(回车\)/g, "\n");
+            }
         } else {
             logger.info("temp4.length<2");
             if (temp4.length > 1) {
