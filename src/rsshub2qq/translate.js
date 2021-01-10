@@ -98,7 +98,7 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
             }
         }
         //logger.info("temp6: " + temp6)
-        if (temp6 == "") {
+        if (temp6 == "" || temp6.trim() == "Re" || temp6.trim() == "RT") {
             return "";
         }
         temp6 = temp6.replace(/\(回车\)/g, "\n");
