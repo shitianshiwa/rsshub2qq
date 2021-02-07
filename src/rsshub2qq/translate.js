@@ -47,8 +47,9 @@ function truncate(q) {
 }
 module.exports = async (str, id, youdao = false, baidu = false) => {
     let query = str.replace(/(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/g, '').replace("#", "\n#").replace('\n\n#', '\n#').trim(); //trim可以去掉开头结尾的空格
-    query = query.replace(/\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g, "");//过滤Emoji
+    query = query.replace(/\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]|\uD83D[\uDE80-\uDEFF]/g, "");//过滤Emoji
     //https://blog.csdn.net/libin_1/article/details/51483815 JavaScript正则表达式大全（过滤Emoji的最佳实践）
+    //https://blog.csdn.net/TKG09/article/details/53309455 js判断与过滤emoji表情的方法
     let i = 0;
     let temp4;
     let temp5 = "";
