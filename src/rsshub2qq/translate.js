@@ -50,12 +50,12 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
     query = query.replace(/\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]|\uD83D[\uDE80-\uDEFF]/g, "");//过滤Emoji
     //https://blog.csdn.net/libin_1/article/details/51483815 JavaScript正则表达式大全（过滤Emoji的最佳实践）
     //https://blog.csdn.net/TKG09/article/details/53309455 js判断与过滤emoji表情的方法
-    let i = 0;
-    let temp4;
+    //let i = 0;
+    //let temp4;
     let temp5 = "";
     let temp6 = "";
-    let temp7 = "";
-    let temp8 = "";
+    //let temp7 = "";
+    //let temp8 = "";
     let result = "";
     if (query == "") {
         return "";
@@ -64,57 +64,64 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
     }
     //query = query.replace(/(Re @)[A-Za-z0-9_-]{1,50}/g, '').trim();
     if (query.search("RT") != -1) {
-        temp8 = "RT";
+        temp5 = "转发了:";
     } else if (query.search("Re") != -1) {
-        temp8 = "Re";
+        temp5 = "回复了:";
     }
-    if (temp8 != "") {
-        logger.info("query1: " + query)
-        query = query.replace(/\n/g, "(回车)");
-        logger.info("query2: " + query)
-        temp6 = "";
-        temp4 = query.split(" ");
-        logger.info("temp4: " + temp4)
-        logger.info("temp4: " + temp4.length)
-        if (temp4.length > 2) {
-            logger.info("temp4.length>2");
-            for (i = 2; i < temp4.length; i++) {
-                temp6 += temp4[i];
-            }
-            if (temp4[0].startsWith("RT") == true) {
+    //if (temp8 != "") {
+    //logger.info("query1: " + query)
+    // query = query.replace(/\n/g, "(回车)");
+    //logger.info("query2: " + query)
+    //temp6 = "";
+    //temp4 = query.split(" ");
+    //logger.info("temp4: " + temp4)
+    //logger.info("temp4: " + temp4.length)
+    /*if (temp4.length > 2) {
+        logger.info("temp4.length>2");
+        for (i = 2; i < temp4.length; i++) {
+            temp6 += temp4[i];
+        }
+        if (temp4[0].startsWith("RT") == true) {
+            if (temp4[1].search("(回车)") == -1) {
                 temp5 = temp8 + " " + temp4[1] + "\n";
             }
-            else if (temp4[0].startsWith("Re") == true) {
-                if (temp4.length == 3) {
-                    temp5 = temp8 + " " + temp4[0] + "\n";
-                }
-                else {
-                    temp5 = temp8 + " " + temp4[1] + "\n";
-                }
+            else {
+                temp5 = temp8 + " " + temp4[1].split("(回车)")[0] + "\n";
+            }
+        }
+        else if (temp4[0].startsWith("Re") == true) {
+            if (temp4.length == 3) {
+                temp5 = temp8 + " " + temp4[0] + "\n";
             }
             else {
-                temp5 = query;
+                temp5 = temp8 + " " + temp4[1] + "\n";
             }
+        }
+        else {
+            temp5 = query;
+        }
+    } else {
+        logger.info("temp4.length<2");
+        if (temp4.length > 1) {
+            logger.info("temp4.length>1");
+            temp7 = temp4[1].split("(回车)");
+            for (i = 1; i < temp7.length; i++) {
+                temp6 += temp7[i] + "\n";
+            }
+            temp5 = temp8 + " " + temp7[0] + "\n";
         } else {
-            logger.info("temp4.length<2");
-            if (temp4.length > 1) {
-                logger.info("temp4.length>1");
-                temp7 = temp4[1].split("(回车)");
-                for (i = 1; i < temp7.length; i++) {
-                    temp6 += temp7[i] + "\n";
-                }
-                temp5 = temp8 + " " + temp7[0] + "\n";
-            } else {
-                temp6 = query;
-            }
+            temp6 = query;
         }
-        //logger.info("temp6: " + temp6)
-        if (temp6 == "" || temp6.trim() == "Re" || temp6.trim() == "RT") {
-            return "";
-        }
-        temp6 = temp6.replace(/\(回车\)/g, "\n");
-        //query = query.replace(/^(Re )/g, '').trim();
     }
+    //logger.info("temp6: " + temp6)
+    if (temp6 == "" || temp6.trim() == "Re" || temp6.trim() == "RT") {
+        return "";
+    }
+    temp5 = temp5.replace(/\(回车\)/g, "\n");
+    temp6 = temp6.replace(/\(回车\)/g, "\n");*/
+    temp6 = temp6.replace(/^RT/, "");
+    temp6 = temp6.replace(/^Re/, "");
+    temp6 = temp6.trim();
     logger.info("1." + query)
     logger.info("2." + temp6)
     if (youdao == true) {
@@ -269,7 +276,7 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
                     await fanyitemp2.setItem("success", temp);
                     await fanyitemp2.setItem("zishu", temp2);
                     let temp3 = "";
-                    let temp4 = data.trans_result;
+                    let temp4 = data.trans_result||"";
                     logger.info("百度翻译的结果：" + JSON.stringify(temp4));
                     for (let i = 0; i < temp4.length; i++) {
                         temp3 += temp4[i].dst + (i < temp4.length - 1 ? "\n" : "");
