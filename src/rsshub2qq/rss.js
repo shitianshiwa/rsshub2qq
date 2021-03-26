@@ -66,6 +66,7 @@ async function sub(config) {
     let group = config.group.map(temp => {
         return temp;
     });
+    logger.info("1x");
     await new Promise(async function (resolve, reject) {
         rp.get(`${rsshub}${config.url}`, {
             qs: {
@@ -86,7 +87,9 @@ async function sub(config) {
                 } else {
                     return body;
                 }
-            } //,
+            },
+            timeout: 10000,
+            encoding: "utf-8"
             //proxy: 'http://127.0.0.1:1082'
         }).then(async feed => {
             //解决启动程序后不会再读取本地文件的问题
@@ -121,6 +124,8 @@ async function sub(config) {
                 resolve(false);
                 return false;
             }
+            logger.info("2x");
+
             //对比方式原理不明
             //let items = _.chain(feed2.items).differenceBy(oldFeed, 'guid').filter(function(o) {
             //logger.info(feed[1][0]);
@@ -171,15 +176,24 @@ async function sub(config) {
                 //}
             }
             let translates = new Array(); //数组和字典是一样申明的
+            logger.info("3x");
+
             if (items1.length > 0) {
                 logger.info(`rss：发现 ${items1.length} 条更新 ==> ` + config.name);
                 let temp1 = db2.get(`rss["${config.name}"]`).value();
                 let i = 0;
                 let suo = false;
+                //logger.info(temp1);
+                logger.info("5x");
+
                 let t = await setInterval(async () => {
                     //console.log(i);
+                    logger.info("6x");
+
                     if (suo == false) {
                         suo = true;
+                        logger.info("7x");
+
                         if (i < items1.length) {
                             temp1.push({
                                 title: feed.items[i].title,
@@ -187,6 +201,7 @@ async function sub(config) {
                                 guid: feed.items[i].guid,
                                 time: feed.items[i].pubDate
                             });
+                            //logger.info(temp1);
                             //有道翻译
                             let content = items1[i].content.replace(/<br><video.+?><\/video>|<br><img.+?>/g, e => {
                                 return e.replace(/<br>/, '');
@@ -208,12 +223,16 @@ async function sub(config) {
                             logger.info(i + ",+6666666666");
                             i++;
                             suo = false;
+                            logger.info("8x");
+
                         } else {
                             clearInterval(t);
                             db.read().set(`rss["${config.name}"]`, feed.items).write();
                             db2.read().set(`rss["${config.name}"]`, temp1).write();
                             //私聊
                             //logger.info(translates)
+                            logger.info("9x");
+
                             if (user != null) {
                                 let user2
                                 logger.info("user1")
@@ -280,12 +299,14 @@ async function sub(config) {
                 resolve(false);
                 return false;
             }
+            logger.info("4x");
+
             //logger.info('rss：开始执行任务,' + t.toString() + dayjs(t.toString()).format(' A 星期d'));错误测试
             //console.log("66666666666666");
             //fangyitemp.clear()
         }).catch((err) => {
             logger.error(new Date().toString() + `:rss：请求RSSHUB失败 ==> ${config.name} ==> ${err.message || JSON.stringify(err)}`);
-            if (errorjishu > 3) {
+            if (errorjishu > 6) {
                 clearInterval(timer1);
                 timer2 = false;
                 let i = 0,
@@ -384,75 +405,82 @@ module.exports = async function () {
             return;
         }
         if (startsuo == false) {
-            startsuo = true;
-            let t = new Date();
-            let rsslistindex = 0;
-            let rsslistsuo = false;
-            let rsslist1 = 0;
-            let rsslist2 = new Array();
-            let rsslist3 = new Array();
-            logger.info("清理图片缓存"); //启动新一轮爬取前，先清理图片缓存
-            await new Promise(async function (resolve, reject) {
-                empty('./src/rsshub2qq/tmp', false, (o) => {
-                    if (o.error) {
-                        logger.error(new Date().toString() + "," + o.error);
-                        resolve(false);
+            try {
+                startsuo = true;
+                let t = new Date();
+                let rsslistindex = 0;
+                let rsslistsuo = false;
+                let rsslist1 = 0;
+                let rsslist2 = new Array();
+                let rsslist3 = new Array();
+                logger.info("清理图片缓存"); //启动新一轮爬取前，先清理图片缓存
+                await new Promise(async function (resolve, reject) {
+                    empty('./src/rsshub2qq/tmp', false, (o) => {
+                        if (o.error) {
+                            logger.error(new Date().toString() + "," + o.error);
+                            resolve(false);
 
-                    } else {
-                        logger.info(new Date().toString() + "," + "成功清空图片缓存,tmp");
-                        resolve(true);
-                    }
-                    //console.log(o.removed);
-                    //console.log(o.failed);
+                        } else {
+                            logger.info(new Date().toString() + "," + "成功清空图片缓存,tmp");
+                            resolve(true);
+                        }
+                        //console.log(o.removed);
+                        //console.log(o.failed);
+                    });
                 });
-            });
-            Object.keys(rsslist).forEach((c, i) => {
-                rsslist[c].name = c;
-                if (rsslist[c].kaiguan == false) {
-                    logger.info(rsslist[c].name + "推特不启动");
-                } //关掉的推特不启动
-                else {
-                    rsslist2.push(rsslist[c]);
-                    rsslist3.push(rsslist[c].name);
-                    rsslistindex++;
-                    logger.info("1." + rsslistindex);
-                }
-            });
-            //logger.info("rsslist2:" + rsslist2);
-            logger.info("rsslist3:" + rsslist3);
-            logger.info('rss：开始执行任务,' + t.toString() + dayjs(t.toString()).format(' A 星期d').replace("星期0", "星期天"));
-            let t2 = setInterval(async () => {
-                if (rsslistsuo == false && timer2 == true) {
-                    rsslistsuo = true;
-                    if (rsslist1 < rsslistindex) {
-                        await new Promise(async (resolve, reject) => {
-                            async function getonline2() {
-                                if (await getonline(t) == true) {
-                                    resolve(null);
-                                } else {
-                                    setTimeout(getonline2, 10000);
-                                }
-                            }
-                            getonline2();
-                        });
-                        logger.info('rss：开始抓取：' + rsslist3[rsslist1]);
-                        await new Promise(async function (resolve, reject) {
-                            resolve(sub(rsslist2[rsslist1]));
-                        });
-                        logger.info('rss：完成抓取任务：' + rsslist3[rsslist1]);
-                        rsslist1++;
-                        logger.info("2." + rsslist1);
-                        rsslistsuo = false;
-
-                    } else {
-                        logger.info("3." + rsslist1);
-                        logger.info("4." + rsslistindex);
-                        clearTimeout(t2);
-                        logger.info('rss：完成抓取任务2：');
-                        startsuo = false;
+                Object.keys(rsslist).forEach((c, i) => {
+                    rsslist[c].name = c;
+                    if (rsslist[c].kaiguan == false) {
+                        logger.info(rsslist[c].name + "推特不启动");
+                    } //关掉的推特不启动
+                    else {
+                        rsslist2.push(rsslist[c]);
+                        rsslist3.push(rsslist[c].name);
+                        rsslistindex++;
+                        logger.info("1." + rsslistindex);
                     }
-                }
-            }, 5000);
+                });
+                //logger.info("rsslist2:" + rsslist2);
+                logger.info("rsslist3:" + rsslist3);
+                logger.info('rss：开始执行任务,' + t.toString() + dayjs(t.toString()).format(' A 星期d').replace("星期0", "星期天"));
+                let t2 = setInterval(async () => {
+                    if (rsslistsuo == false && timer2 == true) {
+                        rsslistsuo = true;
+                        if (rsslist1 < rsslistindex) {
+                            await new Promise(async (resolve, reject) => {
+                                async function getonline2() {
+                                    if (await getonline(t) == true) {
+                                        resolve(null);
+                                    } else {
+                                        setTimeout(getonline2, 10000);
+                                    }
+                                }
+                                getonline2();
+                            });
+                            logger.info('rss：开始抓取：' + rsslist3[rsslist1]);
+                            await new Promise(async function (resolve, reject) {
+                                resolve(sub(rsslist2[rsslist1]));
+                            });
+                            logger.info('rss：完成抓取任务：' + rsslist3[rsslist1]);
+                            rsslist1++;
+                            logger.info("2." + rsslist1);
+                            rsslistsuo = false;
+
+                        } else {
+                            logger.info("3." + rsslist1);
+                            logger.info("4." + rsslistindex);
+                            errorjishu = 0; //运行完清0
+                            clearTimeout(t2);
+                            logger.info('rss：完成抓取任务2：');
+                            startsuo = false;
+                            rsslistsuo = false;//解决卡死bug
+                        }
+                    }
+                }, 5000);
+            }
+            catch (err) {
+                startsuo = false;
+            }
         }
 
         function getonline(t) {
@@ -526,6 +554,7 @@ const a1 = /^\d+$/; //验证非负整数（正整数 + 0）
     }
 });*/
 
+
 bot.on('message', context => {
     if (context.message_type == 'group') {
         let temp = CQcode.unescape(context.message).replace(/\\\//g, "/");
@@ -533,39 +562,10 @@ bot.on('message', context => {
             let t = new Date();
             let temp = t.toString() + dayjs(t.toString()).format(' A 星期d').replace("星期0", "星期天") + ", 发现窥屏插件:" + CQcode.unescape(JSON.stringify(context));
             logger.error(temp);
-            send_private(temp, admin).then(data => {}).catch(err => {
+            send_private(temp, admin).then(data => { }).catch(err => {
                 logger.error(err);
             });
             send_email(CQcode.unescape(JSON.stringify(context)), "发现窥屏插件", false);
-        }
-        if (context.user_id == admin) {
-            let temp = context.message.split("计时");
-            //logger.info(temp);
-            //logger.info(temp.length);
-            if (temp.length == 2 && a1.exec(temp[1]) != null && context.message.search("计时") != -1) {
-                bot('send_group_msg', { //send_group_msg
-                    group_id: context.group_id,
-                    message: '开始计时:' + parseInt(temp[1]) + "秒\n"
-                }).then(data => {
-                    logger.info(JSON.stringify(data));
-                    let t = setTimeout(() => {
-                        clearTimeout(t);
-                        bot('send_group_msg', { //send_group_msg
-                            group_id: context.group_id,
-                            message: '结束计时:' + parseInt(temp[1]) + "秒"
-                        }).then(data => {
-                            logger.info(JSON.stringify(data));
-                        }).catch(err => {
-                            logger.error(JSON.stringify(err));
-                        });
-                        t = null;
-                    }, parseInt(temp[1] * 1000));
-                }).catch(err => {
-                    let t = new Date();
-                    logger.info('计时' + dayjs(t.toString()).format(' A 星期d'));
-                    logger.error(JSON.stringify(err));
-                });
-            }
         }
     }
 });
@@ -680,7 +680,7 @@ https://www.jianshu.com/p/8d303ff8fdeb
     logger.info('翻译字数统计：' + `今日有道翻译：\n使用次数：${tempday1}\n使用字数：${temp2day1}\n失败次数：${failtemp1}\n大失败次数：${bigfailtemp1}\n今日百度翻译：\n使用次数：${tempday2}\n使用字数：${temp2day2}\n大失败次数：${bigfailtemp2}` + t.toString() + dayjs(t.toString()).format(' A 星期d').replace("星期0", "星期天"));
 }
 test();*/
-var j = schedule.scheduleJob('0 0 0 * * *' /*rule*/ , async function () {
+var j = schedule.scheduleJob('0 0 0 * * *' /*rule*/, async function () {
     let tempday1 = await fanyi1day.getItem("success"); //有道翻译
     await fanyi1day.setItem("success", 0);
     let temp2day1 = await fanyi1day.getItem("zishu");
@@ -697,10 +697,37 @@ var j = schedule.scheduleJob('0 0 0 * * *' /*rule*/ , async function () {
     let bigfailtemp2 = await fanyi2day.getItem("bigfail");
     await fanyi2day.setItem("bigfail", 0);
 
-    send_private(`今日有道翻译：\n使用次数：${tempday1}\n使用字数：${temp2day1}\n失败次数：${failtemp1}\n大失败次数：${bigfailtemp1}\n今日百度翻译：\n使用次数：${tempday2}\n使用字数：${temp2day2}\n大失败次数：${bigfailtemp2}`, admin).then(data => {}).catch(err => {
+    send_private(`今日有道翻译：\n使用次数：${tempday1}\n使用字数：${temp2day1}\n失败次数：${failtemp1}\n大失败次数：${bigfailtemp1}\n今日百度翻译：\n使用次数：${tempday2}\n使用字数：${temp2day2}\n大失败次数：${bigfailtemp2}`, admin).then(data => { }).catch(err => {
         logger.error(err);
     });
 
     let t = new Date();
     logger.info('翻译字数统计：' + `今日有道翻译：\n使用次数：${tempday1}\n使用字数：${temp2day1}\n失败次数：${failtemp1}\n大失败次数：${bigfailtemp1}\n今日百度翻译：\n使用次数：${tempday2}\n使用字数：${temp2day2}\n大失败次数：${bigfailtemp2}` + t.toString() + dayjs(t.toString()).format(' A 星期d').replace("星期0", "星期天"));
 });
+
+
+/*bot.on('message', context => {
+    if (context.message_type == 'group') {
+        if (context.user_id == admin) {
+            if (context.message == "随机") {
+                bot('send_group_msg', { //send_group_msg
+                    group_id: context.group_id,
+                    message: '随机数:' + parseInt(Math.random() * 20)
+                }).then(data => {
+                    logger.info(JSON.stringify(data));
+                }).catch(err => {
+                    logger.error(JSON.stringify(err));
+                });
+            } else if (context.message == "随机2") {
+                bot('send_group_msg', { //send_group_msg
+                    group_id: context.group_id,
+                    message: '随机数2:' + parseInt(20 + Math.random() * 5)
+                }).then(data => {
+                    logger.info(JSON.stringify(data));
+                }).catch(err => {
+                    logger.error(JSON.stringify(err));
+                });
+            }
+        }
+    }
+});*/
