@@ -210,15 +210,19 @@ async function sub(config) {
                             let text = $.text().trim();
                             let temp2 = items1[i].link.split("/")[5].toString(); //推特链接后面的数字
                             if (action1(user, group, items1) == true) { //翻译是一次性翻完的
-                                logger.info("使用翻译api")
-                                logger.info(temp2);
-                                translates[temp2] = await translate(text, temp2, config.translate1, config.translate2);
-                                /*translates[temp2] = await new Promise(function (resolve, reject) {
+                                logger.info(temp2.toString());
+                                if (translates[temp2.toString()] == undefined || translates[temp2.toString()] == null) {
+                                    logger.info("使用翻译api")
+                                    translates[temp2.toString()] = await translate(text, temp2, config.translate1, config.translate2);
+                                }
+                                else {
+                                    logger.info("使用翻译api缓存")
+                                }                               /*translates[temp2] = await new Promise(function (resolve, reject) {
                                     resolve(translate(text, temp2, config.translate1, config.translate2)); //由于系统设计问题，存在浪费api问题，翻译了不发送
                                 });*/
                             } else {
                                 logger.info("没有使用api")
-                                translates[temp2] = "";
+                                translates[temp2.toString()] = "";
                             }
                             logger.info(i + ",+6666666666");
                             i++;
@@ -232,7 +236,6 @@ async function sub(config) {
                             //私聊
                             //logger.info(translates)
                             logger.info("9x");
-
                             if (user != null) {
                                 let user2
                                 logger.info("user1")
@@ -272,6 +275,7 @@ async function sub(config) {
                                 }
                                 logger.info("group4")
                             }
+                            translates = null;
                             logger.info("完成发送任务")
                             resolve(true);
                         }

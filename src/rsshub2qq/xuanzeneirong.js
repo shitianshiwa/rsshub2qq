@@ -1,6 +1,5 @@
 const dayjs = require('dayjs');
 const logger = require('../logger');
-
 const xuanzeneirong = (xuanze, i, cheadpath, feed, actorlink, config, text, videoLength, videos3, videos, music, cqimgpath, item, items1, translates, item2) => {
     let message = "";
     let linktemp = item.link.split("/status/")[1];
@@ -13,7 +12,7 @@ const xuanzeneirong = (xuanze, i, cheadpath, feed, actorlink, config, text, vide
             if (cqimgpath.length > 0) {
                 message = `(实际数量：${i}/${item2.length} , 原本总数：${items1.length})\n` + `${cheadpath}【${feed.title}】更新了！\n${actorlink}\n` +
                     (config.title ? `标题：${item.title}\n` : '') +
-                    `内容：\n${videoLength ? `${text!=""?text+"\n":""}${videos3==1?videoLength+"个GIF，点击原链接查看":(videos3==2?videoLength+"个视频，点击原链接查看"+(music==null?",备注:该视频无声音\n":"\n声音将转为单独的语音发送\n"):"")}${videos+""}` : text!=""?text+"\n":""}` + `${translates[linktemp]=="" ? `${text!=""?fanyi+"\n":""}` :translates[linktemp]+"\n"}` +
+                    `内容：\n${videoLength ? `${text!=""?text+"\n":""}${videos3==1?videoLength+"个GIF，点击原链接查看":(videos3==2?videoLength+"个视频，点击原链接查看"+(music==null?",备注:该视频无声音\n":"\n声音将转为单独的语音发送\n"):"")}${videos+""}` : text!=""?text+"\n":""}` + `${translates[linktemp.toString()]=="" ? `${text!=""?fanyi+"\n":""}` :translates[linktemp.toString()]+"\n"}` +
                     `${cqimgpath.length ? `媒体(${cqimgpath.length}张图片)：\n${cqimgpath.length ? `${cqimgpath.join('')}\n` : ''}` : ''}` +
                     /*`发推人：${item.author}\n`+*/
                     `链接：${item.link}\n` +
@@ -25,7 +24,7 @@ const xuanzeneirong = (xuanze, i, cheadpath, feed, actorlink, config, text, vide
                 message = `(实际数量：${i}/${item2.length} , 原本总数：${items1.length})\n` + `${cheadpath}【${feed.title}】更新了！\n${actorlink}\n` +
 
                     (config.title ? `标题：${item.title}\n` : '') +
-                    `内容：\n${videoLength ? `${text!=""?text+"\n":""}${videos3==1?videoLength+"个GIF，点击原链接查看":(videos3==2?videoLength+"个视频，点击原链接查看"+(music==null?",备注:该视频无声音\n":"\n声音将转为单独的语音发送\n"):"")}${videos+""}` : text!=""?text+"\n":""}` + `${translates[linktemp]=="" ? `${text!=""?fanyi+"\n":""}` :translates[linktemp]+"\n"}` +
+                    `内容：\n${videoLength ? `${text!=""?text+"\n":""}${videos3==1?videoLength+"个GIF，点击原链接查看":(videos3==2?videoLength+"个视频，点击原链接查看"+(music==null?",备注:该视频无声音\n":"\n声音将转为单独的语音发送\n"):"")}${videos+""}` : text!=""?text+"\n":""}` + `${translates[linktemp.toString()]=="" ? `${text!=""?fanyi+"\n":""}` :translates[linktemp.toString()]+"\n"}` +
                     `${cqimgpath.length ? `媒体(${cqimgpath.length}张图片)：\n${cqimgpath.length ? `${cqimgpath.join('')}\n` : ''}` : ''}` +
                     /*`发推人：${item.author}\n`+*/
                     `链接：${item.link}\n` +
@@ -41,7 +40,7 @@ const xuanzeneirong = (xuanze, i, cheadpath, feed, actorlink, config, text, vide
         default: //全部内容
             message = `(实际数量：${i}/${item2.length} , 原本总数：${items1.length})\n` + `${cheadpath}【${feed.title}】更新了！\n${actorlink}\n` +
                 (config.title ? `标题：${item.title}\n` : '') +
-                `内容：\n${videoLength ? `${text!=""?text+"\n":""}${videos3==1?videoLength+"个GIF，点击原链接查看":(videos3==2?videoLength+"个视频，点击原链接查看"+(music==null?",备注:该视频无声音\n":"\n声音将转为单独的语音发送\n"):"")}${videos+""}` : text!=""?text+"\n":""}` + `${translates[linktemp]=="" ? `${text!=""?fanyi+"\n":""}` :translates[linktemp]+"\n"}` +
+                `内容：\n${videoLength ? `${text!=""?text+"\n":""}${videos3==1?videoLength+"个GIF，点击原链接查看":(videos3==2?videoLength+"个视频，点击原链接查看"+(music==null?",备注:该视频无声音\n":"\n声音将转为单独的语音发送\n"):"")}${videos+""}` : text!=""?text+"\n":""}` + `${translates[linktemp.toString()]=="" ? `${text!=""?fanyi+"\n":""}` :translates[linktemp.toString()]+"\n"}` +
                 `${cqimgpath.length ? `媒体(${cqimgpath.length}张图片)：\n${cqimgpath.length ? `${cqimgpath.join('')}\n` : ''}` : ''}` +
                 /*`发推人：${item.author}\n` +*/
                 `链接：${item.link}\n` +
