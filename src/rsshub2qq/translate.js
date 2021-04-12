@@ -151,8 +151,10 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
                         signType: 'v3',
                         curtime: curTime1
                     },
-                    json: true
+                    json: true,
+                    timeout: 10000
                 }).then(async data => {
+                    logger.info(new Date().toString() + ",youdao:" + JSON.stringify(data));
                     if (data.errorCode === '0') {
                         let tempday = await fanyi1day.getItem("success"); //单日使用计数
                         let temp2day = await fanyi1day.getItem("zishu");
@@ -203,6 +205,7 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
                         //reject(temp + ". " + "有道翻译出错");
                     }
                 }).catch(async e => {
+                    logger.error(new Date().toString() + ",youdaoerr:" + e);
                     let temp = await fanyitemp1.getItem("bigfail"); //累计大错误计数
                     if (temp == null) {
                         temp = 0;
@@ -246,9 +249,10 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
                         salt: salt2,
                         sign: sign2,
                     },
-                    json: true
+                    json: true,
+                    timeout: 10000
                 }).then(async data => {
-                    //logger.info(JSON.stringify(data.trans_result));
+                    logger.info(new Date().toString() + ",baidu:" + JSON.stringify(data));
                     let tempday = await fanyi2day.getItem("success");
                     let temp2day = await fanyi2day.getItem("zishu"); //单日使用计数
                     if (tempday == null) {
@@ -276,7 +280,7 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
                     await fanyitemp2.setItem("success", temp);
                     await fanyitemp2.setItem("zishu", temp2);
                     let temp3 = "";
-                    let temp4 = data.trans_result||"";
+                    let temp4 = data.trans_result || "";
                     logger.info("百度翻译的结果：" + JSON.stringify(temp4));
                     for (let i = 0; i < temp4.length; i++) {
                         temp3 += temp4[i].dst + (i < temp4.length - 1 ? "\n" : "");
@@ -293,6 +297,7 @@ module.exports = async (str, id, youdao = false, baidu = false) => {
                         reject(temp + ". " + "百度翻译出错");
                     }*/
                 }).catch(async e => {
+                    logger.error(new Date().toString() + ",baiduerr:" + e);
                     let temp = await fanyitemp2.getItem("bigfail") //累计大错误计数
                     if (temp == null) {
                         temp = 0;
