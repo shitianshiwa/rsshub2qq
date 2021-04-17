@@ -508,7 +508,7 @@ module.exports = async function () {
         }
     }
     start();
-    timer1 = setInterval(start, 1000 * 60 * 5);
+    timer1 = setInterval(start, 1000 * 60 * 6);
     await qiandaosuo.setItem("qiandaosuo", "false");
 }
 
